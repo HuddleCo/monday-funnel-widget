@@ -17,15 +17,8 @@ class App extends React.Component {
 
     // Default state
     this.state = {
-      settings: {
-        nameId: "text",
-        valueId: "numbers",
-      },
-      data: [
-        { name: "Awareness", value: 252 },
-        { name: "Interest", value: 105 },
-        { name: "Consideration", value: 84 },
-      ],
+      settings: {},
+      data: [],
       percent: [],
       funnelData: [{}],
       context: {},
