@@ -149,7 +149,7 @@ class App extends React.Component {
             <p>Please enter the id of label column and value column.</p>
           </div>
         ) : this.displayError() || (
-          <div className="funnel_container pt-4">
+          <div className="funnel-container pt-4">
             <Funnel className="pt-4" data={this.state.funnelData} />
             <div className="pt-4">
               <Button onClick={this.refreshButton} variant="success" size="lg" disabled={this.state.spinner ? true : false}>
