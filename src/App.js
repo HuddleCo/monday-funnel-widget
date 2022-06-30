@@ -55,20 +55,11 @@ class App extends React.Component {
   }
 
   componentDidMount() {
-    monday.listen("context", ({ data }) => {
-      this.setState({ context: data })
-      this.apiCall();
-    });
+    monday.listen("context", ({ data }) => { this.setState({ context: data }) })
+    monday.listen("settings", ({ data }) => { this.setState({ settings: data }) })
+    monday.listen(['settings', 'context'], () => { this.apiCall() })
 
-    monday.listen("settings", ({ data }) => {
-      this.setState({ settings: data });
-      this.apiCall();
-    });
-    setInterval(() => {
-      if (this.tickTimer() <= 0) {
-        this.apiCall()
-      }
-    }, 1000);
+    setInterval(() => { if (this.tickTimer() <= 0) this.apiCall() }, 1000);
   }
 
   boardId = () => this.boardIds()[0]
