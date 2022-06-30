@@ -193,7 +193,7 @@ class App extends React.Component {
     } else if (this.state.errorVal === LABEL_ERROR) {
       return (
         <Alert variant="danger" className="mt-4">
-          Could not get lables for the funnel. <br />
+          Could not get labels for the funnel. <br />
           Please go to the settings and change the <strong>Name Column</strong>.
         </Alert>
       );
