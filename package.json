@@ -1,27 +1,27 @@
 {
-  "name": "monday-integration-quickstart-app",
+  "name": "monday-funnel-widget",
   "version": "0.0.1",
   "private": true,
   "scripts": {
-    "start": "npm run server",
-    "build": "react-scripts build",
+    "start": "react-scripts start",
+    "build": "react-scripts build && node -e \"require('zip-a-folder').zip('./build', './build.zip').then(() => console.log('Compressed ./build directory to ./build.zip'))\"",
+    "test": "react-scripts test --watchAll=false --passWithNoTests",
+    "eject": "react-scripts eject",
+    "lint:fix": "./node_modules/.bin/eslint -c .eslintrc.js \"{src, test}/**/*.{js,ts,tsx}\" --fix",
     "expose": "ngrok http 8301",
-    "server": "react-scripts start",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "release": "standard-version",
+    "prepare": "husky install",
+    "release:minor": "standard-version --release-as minor",
+    "release:patch": "standard-version --release-as patch",
+    "release:major": "standard-version --release-as major"
   },
-  "dependencies": {
-    "@testing-library/jest-dom": "^4.2.4",
-    "@testing-library/react": "^9.5.0",
-    "@testing-library/user-event": "^7.2.1",
-    "bootstrap": "^5.2.0-beta1",
-    "monday-sdk-js": "^0.1.2",
-    "monday-ui-react-core": "0.0.48",
-    "react": "^16.13.0",
-    "react-bootstrap": "^2.4.0",
-    "react-dom": "^16.13.0",
-    "react-funnel-pipeline": "^0.1.2",
-    "react-scripts": "3.4.0"
+  "engines": {
+    "node": ">=16"
+  },
+  "standard-version": {
+    "skip": {
+      "tag": true
+    }
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -38,7 +38,26 @@
       "last 1 safari version"
     ]
   },
+  "dependencies": {
+    "bootstrap": "^5.1",
+    "monday-sdk-js": "^0.1",
+    "monday-ui-react-core": "^1.0",
+    "react": "^18.0",
+    "react-bootstrap": "^2.4",
+    "react-dom": "^18.0",
+    "react-funnel-pipeline": "^0.1",
+    "react-scripts": "^5.0"
+  },
   "devDependencies": {
-    "ngrok": "^3.2.7"
+    "@commitlint/config-conventional": "^17.0",
+    "commitlint": "^17.0",
+    "eslint": "^8.6",
+    "eslint-config-prettier": "^8.3",
+    "eslint-plugin-prettier": "^4.0",
+    "husky": "^8.0",
+    "ngrok": "^4.0",
+    "prettier": "^2.7",
+    "standard-version": "^9.5",
+    "zip-a-folder": "^1.1"
   }
 }
