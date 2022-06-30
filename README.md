@@ -10,7 +10,11 @@ In the project directory, you should run:
 
 ### `npm install`
 
-And then to run an application with automatic virtual ngrok tunnel, run:
+Prepare the app after installing the dependencies, run:
+
+### `npm run prepare`
+
+And then to run an application, run:
 
 ### `npm start`
 
@@ -30,11 +34,10 @@ F.e.: <https://021eb6330099.ngrok.io>
 ## Release
 
 1. Run script `npm run build`
-2. Zip your "./build" folder
-3. Open "Build" tab in your Feature
-4. Click "New Build" button
-5. Click "Upload" radio button and upload zip file with your build
-6. Go to any board and add your just released view
+2. Open "Build" tab in your Feature
+3. Click "New Build" button
+4. Click "Upload" radio button and upload `./build.zip` zip file with your build
+5. Go to any board and add your just released view
 
 ## Usage
 
@@ -44,10 +47,10 @@ This section shows you how to use this widget.
 
 2. Enter the Column IDs of the columns you want to display on funnel chart.
 
-- ***Name Column Id*** should be the the column id of text column.
+* ***Name Column Id*** should be the the column id of text column.
 
-- ***Value Column Id*** should be the column id of numbers column.
+* ***Value Column Id*** should be the column id of numbers column.
 
- ![Settings page of a widget](image/settings_page_of_a_widget.png)
+![Settings page of a widget](image/settings_page_of_a_widget.png)
 
 And that's it, you are done. The funnel widget should now display your data.
