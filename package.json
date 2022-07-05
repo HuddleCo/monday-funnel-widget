@@ -1,6 +1,6 @@
 {
   "name": "monday-funnel-widget",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "private": true,
   "scripts": {
     "start": "react-scripts start",
@@ -16,7 +16,7 @@
     "release:major": "standard-version --release-as major"
   },
   "engines": {
-    "node": ">=16"
+    "node": ">=18"
   },
   "standard-version": {
     "skip": {
