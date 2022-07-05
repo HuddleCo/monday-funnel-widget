@@ -10,13 +10,3 @@ body {
   align-items: center;
   justify-content: center;
 }
-
-.funnel-container {
-  margin: 1rem;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  height: 100%;
-  width: 100%;
-}
