@@ -31,7 +31,7 @@ const Funnel = ({ data, filters }) => {
     return (
       <div className="text-center">
         <Spinner animation="border" role="status" size="sm" />
-        Loading...
+        <span className="mx-1">Loading...</span>
       </div>
     );
   }
