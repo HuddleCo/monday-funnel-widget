@@ -75,18 +75,12 @@ class App extends React.Component {
     }
   };
 
-  displayFunnel = () => {
-    try {
-      return <Funnel data={this.funnelData()} filters={this.groupIds()} />;
-    } catch (error) {
-      return this.displayError(error);
-    }
-  };
-
   render() {
     return (
       <Container className="mt-4">
-        {this.displayError() || this.displayFunnel()}
+        {this.displayError() || (
+          <Funnel data={this.funnelData()} filters={this.groupIds()} />
+        )}
       </Container>
     );
   }
