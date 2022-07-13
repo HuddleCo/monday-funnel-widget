@@ -3,15 +3,14 @@ import { FunnelChart } from "react-funnel-pipeline";
 import "react-funnel-pipeline/dist/index.css";
 import { Spinner } from "react-bootstrap";
 
+const safeDivide = (numerator, denominator) =>
+  denominator <= 0 ? 0 : Math.round((numerator / denominator) * 100);
+
 const addPercentagesToLabels = (data = []) =>
   [data[0]].concat(
     data.slice(1).map((item, index) => ({
       ...item,
-      name: `${item.name} (${
-        data[index].value <= 0
-          ? 0
-          : Math.round((item.value / data[index].value) * 100)
-      }%)`,
+      name: `${item.name} (${safeDivide(item.value, data[index].value)}%)`,
     }))
   );
 
