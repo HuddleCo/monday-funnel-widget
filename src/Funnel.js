@@ -1,7 +1,7 @@
 import React from "react";
 import { FunnelChart } from "react-funnel-pipeline";
 import "react-funnel-pipeline/dist/index.css";
-import { Spinner } from "react-bootstrap";
+import { Alert, Spinner } from "react-bootstrap";
 
 const safeDivide = (numerator, denominator) =>
   denominator <= 0 ? 0 : Math.round((numerator / denominator) * 100);
@@ -25,6 +25,8 @@ const transform = (data = {}, groupIds = []) =>
       }))
   );
 
+const extractGroupIds = (filters = {}) => filters.flatMap(Object.values).flat();
+
 const Funnel = ({ data, filters }) => {
   if (!data?.data) {
     return (
@@ -35,11 +37,25 @@ const Funnel = ({ data, filters }) => {
     );
   }
 
-  const transformedData = transform(data, filters);
+  try {
+    const transformedData = transform(data, extractGroupIds(filters));
 
-  return (
-    <FunnelChart data={transformedData} pallette={["#3b7dd8", "#64a1f4"]} />
-  );
+    return !transformedData.length ? (
+      <Alert variant="danger">No data available</Alert>
+    ) : (
+      <FunnelChart data={transformedData} pallette={["#3b7dd8", "#64a1f4"]} />
+    );
+  } catch (error) {
+    return (
+      <div>
+        <Alert variant="danger">{error.message}</Alert>
+        <strong>data:</strong>
+        <pre>{JSON.stringify(data, null, 2)}</pre>
+        <strong>filters:</strong>
+        <pre>{JSON.stringify(filters, null, 2)}</pre>
+      </div>
+    );
+  }
 };
 
 export default Funnel;
