@@ -75,7 +75,7 @@ class App extends React.Component {
   funnelData = () => this.state.store || {};
 
   displayError = () => {
-    if (error) {
+    if (this.state.error) {
       return (
         <div>
           <Alert variant="danger">{this.state.error.message}</Alert>
