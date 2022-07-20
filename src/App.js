@@ -61,8 +61,18 @@ class App extends React.Component {
   }
 
   groupIds = () =>
-    Object.values(this.state.settings.groupsPerBoard || {}).flat();
+    Object.values(
+      this.state.settings.groupsPerBoard?.group_ids_per_board ||
+        this.state.settings.groupsPerBoard ||
+        {}
+    ).flat();
+  ratio = () =>
+    ({ percentage: "percentage", number: "numeric" }[
+      this.state.settings.ratio
+    ]);
+  cumulate = () => this.state.settings.count == "false";
   funnelData = () => this.state.store || {};
+
   displayError = (error = this.state.error) => {
     if (error) {
       return (
@@ -79,7 +89,12 @@ class App extends React.Component {
     return (
       <Container className="mt-4">
         {this.displayError() || (
-          <Funnel data={this.funnelData()} filters={this.groupIds()} />
+          <Funnel
+            data={this.funnelData()}
+            filters={this.groupIds()}
+            cumulate={this.cumulate()}
+            ratio={this.ratio()}
+          />
         )}
       </Container>
     );

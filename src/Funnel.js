@@ -2,32 +2,31 @@ import React from "react";
 import { FunnelChart } from "react-funnel-pipeline";
 import "react-funnel-pipeline/dist/index.css";
 import { Alert, Spinner } from "react-bootstrap";
+import cumulateValues from "./cumulate";
+import addPercentagesToLabels from "./addPercentageToLabels";
+import addMultiplierToLabels from "./addMultiplierToLabels";
 
-const safeDivide = (numerator, denominator) =>
-  denominator <= 0 ? 0 : Math.round((numerator / denominator) * 100);
+const filterData = (data = {}, groupIds = []) =>
+  (data?.data?.boards || [])
+    .flatMap(({ groups }) => groups)
+    .filter(({ id }) => (groupIds.length ? groupIds.includes(id) : true))
+    .map(({ title, items }) => ({
+      name: title,
+      value: items.length,
+    }));
 
-const addPercentagesToLabels = (data = []) =>
-  [data[0]].concat(
-    data.slice(1).map((item, index) => ({
-      ...item,
-      name: `${item.name} (${safeDivide(item.value, data[index].value)}%)`,
-    }))
-  );
+const transformRatio = (data = [], ratio = "") => {
+  switch (ratio) {
+    case "percentage":
+      return addPercentagesToLabels(data);
+    case "numeric":
+      return addMultiplierToLabels(data);
+    default:
+      return data;
+  }
+};
 
-const transform = (data = {}, groupIds = []) =>
-  addPercentagesToLabels(
-    (data?.data?.boards || [])
-      .flatMap(({ groups }) => groups)
-      .filter(({ id }) => (groupIds.length ? groupIds.includes(id) : true))
-      .map(({ title, items }) => ({
-        name: title,
-        value: items.length,
-      }))
-  );
-
-const extractGroupIds = (filters = {}) => filters.flatMap(Object.values).flat();
-
-const Funnel = ({ data, filters }) => {
+const Funnel = ({ data, filters, ratio, cumulate }) => {
   if (!data?.data) {
     return (
       <div className="text-center">
@@ -38,7 +37,11 @@ const Funnel = ({ data, filters }) => {
   }
 
   try {
-    const transformedData = transform(data, extractGroupIds(filters));
+    const filteredData = filterData(data, filters);
+    const transformedData = transformRatio(
+      cumulate ? cumulateValues(filteredData) : filteredData,
+      ratio
+    );
 
     return !transformedData.length ? (
       <Alert variant="danger">No data available</Alert>
