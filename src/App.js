@@ -1,10 +1,9 @@
 import React from "react";
 import mondaySdk from "monday-sdk-js";
-import "monday-ui-react-core/dist/main.css";
-import { Alert, Container } from "react-bootstrap";
-import "react-funnel-pipeline/dist/index.css";
+import { Box, AttentionBox } from "monday-ui-react-core";
 
 import "./App.css";
+
 import Funnel from "./Funnel";
 
 const monday = mondaySdk();
@@ -78,7 +77,18 @@ class App extends React.Component {
     if (this.state.error) {
       return (
         <div>
-          <Alert variant="danger">{this.state.error.message}</Alert>
+          <Flex
+            justify={Flex.justify.CENTER}
+            style={{
+              width: "100%",
+            }}
+          >
+            <AttentionBox
+              title="Something went wrong"
+              text={this.state.error.message}
+              type={AttentionBox.types.DANGER}
+            />
+          </Flex>
           <strong>this.state:</strong>
           <pre>{JSON.stringify(this.state, null, 2)}</pre>
         </div>
@@ -88,7 +98,7 @@ class App extends React.Component {
 
   render() {
     return (
-      <Container className="mt-4">
+      <Box padding={Box.paddings.LARGE}>
         {this.displayError() || (
           <Funnel
             data={this.funnelData()}
@@ -97,7 +107,7 @@ class App extends React.Component {
             ratio={this.ratio()}
           />
         )}
-      </Container>
+      </Box>
     );
   }
 }

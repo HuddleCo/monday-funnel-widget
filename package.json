@@ -39,11 +39,9 @@
     ]
   },
   "dependencies": {
-    "bootstrap": "^5.1",
     "monday-sdk-js": "^0.1",
     "monday-ui-react-core": "^1.0",
     "react": "^18.0",
-    "react-bootstrap": "^2.4",
     "react-dom": "^18.0",
     "react-funnel-pipeline": "^0.1",
     "react-scripts": "^5.0",
