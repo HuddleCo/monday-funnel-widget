@@ -70,15 +70,15 @@ class App extends React.Component {
   ratio = () =>
     ({ percentage: "percentage", number: "numeric" }[
       this.state.settings.ratio
-    ]);
+    ] || "");
   cumulate = () => this.state.settings.count == "false";
   funnelData = () => this.state.store || {};
 
-  displayError = (error = this.state.error) => {
+  displayError = () => {
     if (error) {
       return (
         <div>
-          <Alert variant="danger">{error.message}</Alert>
+          <Alert variant="danger">{this.state.error.message}</Alert>
           <strong>this.state:</strong>
           <pre>{JSON.stringify(this.state, null, 2)}</pre>
         </div>
