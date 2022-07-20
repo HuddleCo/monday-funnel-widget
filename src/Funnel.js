@@ -6,6 +6,11 @@ import cumulateValues from "./cumulate";
 import addPercentagesToLabels from "./addPercentageToLabels";
 import addMultiplierToLabels from "./addMultiplierToLabels";
 
+const RATIO_TRANSFORMATIONS = {
+  percentage: addPercentagesToLabels,
+  numeric: addMultiplierToLabels,
+};
+
 const groups = (data = {}, groupIds = []) =>
   (data?.data?.boards || [])
     .flatMap(({ groups }) => groups)
@@ -21,18 +26,18 @@ const filterData = (data = {}, groupIds = []) =>
 const colors = (data = {}, groupIds = []) =>
   groups(data, groupIds).flatMap(({ color }) => color);
 
-const transformRatio = (data = [], ratio = "") => {
-  switch (ratio) {
-    case "percentage":
-      return addPercentagesToLabels(data);
-    case "numeric":
-      return addMultiplierToLabels(data);
-    default:
-      return data;
-  }
+const transformRatio = (data = [], ratio = "") =>
+  (RATIO_TRANSFORMATIONS[ratio] || ((input) => input))(data);
+
+const transform = (data = [], filters = [], ratio = "", cumulate = false) => {
+  const filteredData = filterData(data, filters);
+  return transformRatio(
+    cumulate ? cumulateValues(filteredData) : filteredData,
+    ratio
+  );
 };
 
-const Funnel = ({ data, filters, ratio, cumulate }) => {
+const data_is_empty_alert = (data) => {
   if (!data?.data) {
     return (
       <div className="text-center">
@@ -41,18 +46,24 @@ const Funnel = ({ data, filters, ratio, cumulate }) => {
       </div>
     );
   }
+};
 
+const no_data_points_alert = (data, filters) => {
+  if (!transform(data, filters).length) {
+    return <Alert variant="danger">No data available</Alert>;
+  }
+};
+
+const Funnel = ({ data, filters, ratio, cumulate }) => {
   try {
-    const filteredData = filterData(data, filters);
-    const transformedData = transformRatio(
-      cumulate ? cumulateValues(filteredData) : filteredData,
-      ratio
-    );
-
-    return !transformedData.length ? (
-      <Alert variant="danger">No data available</Alert>
-    ) : (
-      <FunnelChart data={transformedData} pallette={colors(data, filters)} />
+    return (
+      data_is_empty_alert(data) ||
+      no_data_points_alert(data, filters) || (
+        <FunnelChart
+          data={transform(data, filters, ratio, cumulate)}
+          pallette={colors(data, filters)}
+        />
+      )
     );
   } catch (error) {
     return (
