@@ -2,6 +2,22 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## 0.1.0 (2022-07-20)
+
+
+### Features
+
+* add buttons to show/hide cumulative and ratio calculations ([a6e721b](https://github.com/HuddleCo/monday-funnel-widget/commit/a6e721b43e58e1787937424974499776a4bb9239))
+* display error when an error occours ([8f59dad](https://github.com/HuddleCo/monday-funnel-widget/commit/8f59dad819b08bd3a840c0a24e12ef5aca89f62e))
+* use group colors when rendering the pipeline ([2a4c15a](https://github.com/HuddleCo/monday-funnel-widget/commit/2a4c15a9d7cb13a5a64edab8c75a18003d244af4))
+
+
+### Bug Fixes
+
+* extract group ids from the filters ([ca43a24](https://github.com/HuddleCo/monday-funnel-widget/commit/ca43a240cf33845e506f4685f04df65fb8dbc4f0))
+* limit trailing digits after the decimal place when using the numberic ratio option ([70b051e](https://github.com/HuddleCo/monday-funnel-widget/commit/70b051e284a4d95d9ec674e865ba010a7262278f))
+* match the group color to the group if the group has items ([551f86c](https://github.com/HuddleCo/monday-funnel-widget/commit/551f86c5ec73c31a24f83864031fc5c98969a121))
+
 ### 0.0.3 (2022-07-05)
 
 ### 0.0.2 (2022-06-30)
