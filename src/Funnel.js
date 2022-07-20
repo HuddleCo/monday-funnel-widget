@@ -6,20 +6,20 @@ import cumulateValues from "./cumulate";
 import addPercentagesToLabels from "./addPercentageToLabels";
 import addMultiplierToLabels from "./addMultiplierToLabels";
 
-const filterData = (data = {}, groupIds = []) =>
+const groups = (data = {}, groupIds = []) =>
   (data?.data?.boards || [])
     .flatMap(({ groups }) => groups)
     .filter(({ id }) => (groupIds.length ? groupIds.includes(id) : true))
-    .map(({ title, items }) => ({
-      name: title,
-      value: items.length,
-    }));
+    .filter(({ items }) => items.length);
+
+const filterData = (data = {}, groupIds = []) =>
+  groups(data, groupIds).map(({ title, items }) => ({
+    name: title,
+    value: items.length,
+  }));
 
 const colors = (data = {}, groupIds = []) =>
-  (data?.data?.boards || [])
-    .flatMap(({ groups }) => groups)
-    .filter(({ id }) => (groupIds.length ? groupIds.includes(id) : true))
-    .flatMap(({ color }) => color);
+  groups(data, groupIds).flatMap(({ color }) => color);
 
 const transformRatio = (data = [], ratio = "") => {
   switch (ratio) {
