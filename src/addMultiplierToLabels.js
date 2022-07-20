@@ -1,5 +1,15 @@
+import { sprintf } from "sprintf-js";
+
 const safeDivide = (numerator, denominator) =>
   denominator <= 0 ? 0 : numerator / denominator;
+
+const nnnn = (number = 0) => {
+  if (Number.isInteger(number)) {
+    return number.toString();
+  } else {
+    return sprintf("%.2f", number);
+  }
+};
 
 export default (array = []) => {
   if (
@@ -18,7 +28,9 @@ export default (array = []) => {
   return [array[0]].concat(
     array.slice(1).map((item, index) => ({
       ...item,
-      name: `${item.name} (${safeDivide(item.value, array[index].value)} x)`,
+      name: `${item.name} (${nnnn(
+        safeDivide(item.value, array[index].value)
+      )} x)`,
     }))
   );
 };

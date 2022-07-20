@@ -41,14 +41,24 @@ describe("addMuliplierToLabels()", () => {
       { name: "name", value: 1 },
       { name: "name (0 x)", value: 0 },
     ]));
-  test("when the ratio is a fraction", () =>
+  test("when the ratio is a fraction with recurring digits after the decimal place", () =>
     expect(
       addMuliplierToLabels([
-        { name: "name", value: 4 },
+        { name: "name", value: 3 },
+        { name: "name", value: 1 },
+      ])
+    ).toStrictEqual([
+      { name: "name", value: 3 },
+      { name: "name (0.33 x)", value: 1 },
+    ]));
+  test("when the ratio is a fraction with a single digit after the decimal", () =>
+    expect(
+      addMuliplierToLabels([
+        { name: "name", value: 2 },
         { name: "name", value: 3 },
       ])
     ).toStrictEqual([
-      { name: "name", value: 4 },
-      { name: "name (0.75 x)", value: 3 },
+      { name: "name", value: 2 },
+      { name: "name (1.50 x)", value: 3 },
     ]));
 });
