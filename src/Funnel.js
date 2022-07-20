@@ -15,6 +15,12 @@ const filterData = (data = {}, groupIds = []) =>
       value: items.length,
     }));
 
+const colors = (data = {}, groupIds = []) =>
+  (data?.data?.boards || [])
+    .flatMap(({ groups }) => groups)
+    .filter(({ id }) => (groupIds.length ? groupIds.includes(id) : true))
+    .flatMap(({ color }) => color);
+
 const transformRatio = (data = [], ratio = "") => {
   switch (ratio) {
     case "percentage":
@@ -46,7 +52,7 @@ const Funnel = ({ data, filters, ratio, cumulate }) => {
     return !transformedData.length ? (
       <Alert variant="danger">No data available</Alert>
     ) : (
-      <FunnelChart data={transformedData} pallette={["#3b7dd8", "#64a1f4"]} />
+      <FunnelChart data={transformedData} pallette={colors(data, filters)} />
     );
   } catch (error) {
     return (

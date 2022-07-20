@@ -16,6 +16,7 @@ const getItemsPerGroupPerBoard = (boardIds = []) =>
           groups {
             id
             title
+            color
             items { 
               id
             }
