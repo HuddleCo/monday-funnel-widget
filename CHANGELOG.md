@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.1.1](https://github.com/HuddleCo/monday-funnel-widget/compare/v0.1.0...v0.1.1) (2022-07-20)
+
+
+### Bug Fixes
+
+* pull error from the state ([cf17af6](https://github.com/HuddleCo/monday-funnel-widget/commit/cf17af6868681ddd3f18892dbf57ae2725f649a6))
+
 ## 0.1.0 (2022-07-20)
 
 
