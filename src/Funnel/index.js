@@ -3,40 +3,10 @@ import { Flex, Heading, Loader, AttentionBox } from "monday-ui-react-core";
 
 import "react-funnel-pipeline/dist/index.css";
 
-import cumulateValues from "./cumulate";
-import addPercentagesToLabels from "./addPercentageToLabels";
-import addMultiplierToLabels from "./addMultiplierToLabels";
+import "./index.css";
 
-const RATIO_TRANSFORMATIONS = {
-  percentage: addPercentagesToLabels,
-  numeric: addMultiplierToLabels,
-};
-
-const groups = (data = {}, groupIds = []) =>
-  (data?.data?.boards || [])
-    .flatMap(({ groups }) => groups)
-    .filter(({ id }) => (groupIds.length ? groupIds.includes(id) : true))
-    .filter(({ items }) => items.length);
-
-const filterData = (data = {}, groupIds = []) =>
-  groups(data, groupIds).map(({ title, items }) => ({
-    name: title,
-    value: items.length,
-  }));
-
-const colors = (data = {}, groupIds = []) =>
-  groups(data, groupIds).flatMap(({ color }) => color);
-
-const transformRatio = (data = [], ratio = "") =>
-  (RATIO_TRANSFORMATIONS[ratio] || ((input) => input))(data);
-
-const transform = (data = [], filters = [], ratio = "", cumulate = false) => {
-  const filteredData = filterData(data, filters);
-  return transformRatio(
-    cumulate ? cumulateValues(filteredData) : filteredData,
-    ratio
-  );
-};
+import { groups, filterData, colors } from "./data";
+import { calculatePercentage, calculateRatio } from "./calculate";
 
 const data_is_empty_alert = (data) => {
   if (!data?.data) {
@@ -55,7 +25,7 @@ const data_is_empty_alert = (data) => {
 };
 
 const no_data_points_alert = (data, filters) => {
-  if (!transform(data, filters).length) {
+  if (!groups(data, filters).length) {
     return (
       <Flex
         justify={Flex.justify.CENTER}
@@ -73,14 +43,27 @@ const no_data_points_alert = (data, filters) => {
   }
 };
 
-const Funnel = ({ data, filters, ratio, cumulate }) => {
+const Funnel = ({ data, filters, count, ratio, percentage }) => {
   try {
     return (
       data_is_empty_alert(data) ||
       no_data_points_alert(data, filters) || (
         <FunnelChart
-          data={transform(data, filters, ratio, cumulate)}
+          data={filterData(data, filters)}
           pallette={colors(data, filters)}
+          decorateValue={(item, index, array) =>
+            !(count || percentage || ratio) ? (
+              ""
+            ) : (
+              <ul className="calculations">
+                {count && <li>{item.value}</li>}
+                {percentage && (
+                  <li>{calculatePercentage(item, index, array)}</li>
+                )}
+                {ratio && <li>{calculateRatio(item, index, array)}</li>}
+              </ul>
+            )
+          }
         />
       )
     );
@@ -103,6 +86,12 @@ const Funnel = ({ data, filters, ratio, cumulate }) => {
         <pre>{JSON.stringify(data, null, 2)}</pre>
         <strong>filters:</strong>
         <pre>{JSON.stringify(filters, null, 2)}</pre>
+        <strong>count:</strong>
+        <pre>{JSON.stringify(count, null, 2)}</pre>
+        <strong>percentage:</strong>
+        <pre>{JSON.stringify(percentage, null, 2)}</pre>
+        <strong>ratio:</strong>
+        <pre>{JSON.stringify(ratio, null, 2)}</pre>
       </div>
     );
   }

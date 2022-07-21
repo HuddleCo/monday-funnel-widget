@@ -66,11 +66,15 @@ class App extends React.Component {
         this.state.settings.groupsPerBoard ||
         {}
     ).flat();
-  ratio = () =>
-    ({ percentage: "percentage", number: "numeric" }[
-      this.state.settings.ratio
-    ] || "");
-  cumulate = () => this.state.settings.count == "false";
+  count = (value = "count") =>
+    this.state.settings.calculations === value ||
+    (this.state.settings.calculations || []).includes(value);
+  ratio = (value = "ratio") =>
+    this.state.settings.calculations === value ||
+    (this.state.settings.calculations || []).includes(value);
+  percentage = (value = "percentage") =>
+    this.state.settings.calculations === value ||
+    (this.state.settings.calculations || []).includes(value);
   funnelData = () => this.state.store || {};
 
   displayError = () => {
@@ -103,8 +107,9 @@ class App extends React.Component {
           <Funnel
             data={this.funnelData()}
             filters={this.groupIds()}
-            cumulate={this.cumulate()}
+            count={this.count()}
             ratio={this.ratio()}
+            percentage={this.percentage()}
           />
         )}
       </Box>
