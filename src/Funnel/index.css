@@ -1,0 +1,11 @@
+ul.calculations {
+  font-size: var(--font-size-40);
+  display: -webkit-inline-box;
+  list-style: none;
+  padding: 0px;
+  margin: var(--spacing-xs) 0px;
+}
+
+ul.calculations > li {
+  padding: 0px var(--spacing-small);
+}

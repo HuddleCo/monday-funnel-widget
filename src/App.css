@@ -1,3 +1,5 @@
+@import "monday-ui-react-core/dist/main.css";
+
 body {
   margin: 0;
   font-family: "Roboto", sans-serif;
